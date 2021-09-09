@@ -16,19 +16,16 @@ const createTransaction = async (req, res) =>{
                 res.send({err: 'TProduct err, '+err.message})
             })
         })
-        const paymentPayload = (data.payment_method !== 'ALFAMART' || data.payment_method !== 'INDOMARET' )?{
+        const paymentPayload = {
             "transaction_id": result.id,
-            "external_id": result.invoice_number,
-            "bank_code": data.payment_method,
+            "order_id": result.invoice_number,
+            "payment_method": data.payment_method.toLowerCase(),
             "name": data.customer_name,
             "amount": data.total_amount
-        } : {
-
         }
         try {
             console.log(paymentPayload)
-            const url = paymentUrl[data.payment_method]
-            const {data: response} = await axios.post(url,paymentPayload)
+            const {data: response} = await axios.post('http://127.0.0.1:4001/api/v1/midtrans/create/charge/transaction',paymentPayload)
             console.log(response)
             res.send({
                 status: true,
@@ -39,6 +36,9 @@ const createTransaction = async (req, res) =>{
             res.send({err: 'Create VA err, '+e.message})
 
         }
+        res.send({
+            ok: 'ok'
+        })
     }).catch(err=>{
         res.send({err: 'Transaction err, '+err.message})
     })
