@@ -3,6 +3,7 @@ const Transaction = model.app_transaction;
 const TProduct = model.transaction_product;
 const axios = require('axios')
 const paymentUrl = require('../util/payment_url').paymentUrl
+const {pushNotification} = require('../util/push_notification')
 const createTransaction = async (req, res) =>{
     const data = req.body.data
     const products = req.body.products
@@ -55,8 +56,14 @@ const updateTransactionPaymentStatus = async (req, res) => {
         where: {
             invoice_number: invoice
         }
-    }).then(rowUpdate=>{
+    }).then(async (rowUpdate)=>{
         if(rowUpdate>0){
+            const finalTransaction = await Transaction.findOne({
+                where: {
+                    invoice_number: invoice
+                }
+            })
+            await pushNotification(finalTransaction,finalTransaction.customer_id)
             res.send({
                 status: true,
                 message: 'transaction Updated Success'
@@ -71,7 +78,14 @@ const updateTransactionPaymentStatus = async (req, res) => {
     })
 }
 
+const testNotif = async (req,res)=>{
+    await pushNotification({total_amount: 500000},6)
+    res.send({
+        ok: 'ok'
+    })
+}
 module.exports = {
     createTransaction,
-    updateTransactionPaymentStatus
+    updateTransactionPaymentStatus,
+    testNotif
 }
