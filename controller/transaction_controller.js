@@ -78,6 +78,23 @@ const updateTransactionPaymentStatus = async (req, res) => {
     })
 }
 
+const getAllTransactionByUser = async (req,res) => {
+    const customerId = req.params.customer_id;
+    await Transaction.findAll({
+        where: {
+            customer_id:customerId
+        }
+    }).then(data=>{
+        res.send({
+            status: true,
+            message: 'get All Transaction By User',
+            data: data,
+        })
+    }).catch(err=>{
+        res.send({err: 'Update err, '+err.message})
+    })
+}
+
 const testNotif = async (req,res)=>{
     await pushNotification({total_amount: 500000},6)
     res.send({
@@ -87,5 +104,6 @@ const testNotif = async (req,res)=>{
 module.exports = {
     createTransaction,
     updateTransactionPaymentStatus,
-    testNotif
+    testNotif,
+    getAllTransactionByUser
 }
