@@ -83,7 +83,13 @@ const getAllTransactionByUser = async (req,res) => {
     await Transaction.findAll({
         where: {
             customer_id:customerId
-        }
+        },
+        include: [
+            {
+                model: TProduct,
+                as: 'transaction_product'
+            }
+        ]
     }).then(data=>{
         res.send({
             status: true,
