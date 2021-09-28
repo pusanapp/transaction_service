@@ -14,6 +14,9 @@ module.exports = {
       invoice_number: {
         type: Sequelize.STRING
       },
+      product_id: {
+        type: Sequelize.INTEGER
+      },
       product_name: {
         type: Sequelize.STRING
       },
