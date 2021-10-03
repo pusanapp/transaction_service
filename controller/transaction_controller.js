@@ -49,9 +49,9 @@ const createTransaction = async (req, res) =>{
 const updateTransactionPaymentStatus = async (req, res) => {
     const invoice = req.params.invoice
     await Transaction.update({
-        shipping_status: 'Dikemas',
-        payment_status: 'Dibayar',
-        status: 'Barang Sedang Dikemas',
+        shipping_status: 'Barang Sedang Dikemas',
+        payment_status: 'DIBAYAR',
+        status: 'ON PROCESS',
     },{
         where: {
             invoice_number: invoice
@@ -89,6 +89,9 @@ const getAllTransactionByUser = async (req,res) => {
                 model: TProduct,
                 as: 'transaction_product'
             }
+        ],
+        order: [
+            ['createdAt', 'DESC']
         ]
     }).then(data=>{
         res.send({
@@ -101,6 +104,105 @@ const getAllTransactionByUser = async (req,res) => {
     })
 }
 
+const getAllTransaction = async (req,res) => {
+    await Transaction.findAll({
+        include: [
+            {
+                model: TProduct,
+                as: 'transaction_product'
+            }
+        ],
+        order: [
+            ['createdAt', 'DESC']
+        ]
+    }).then(data=>{
+        res.send({
+            status: true,
+            message: 'get All Transaction',
+            data: data,
+        })
+    }).catch(err=>{
+        res.send({err: 'Update err, '+err.message})
+    })
+}
+
+const getAllOnProcessTransaction= async (req,res) => {
+    const status = req.params.status;
+    await Transaction.findAll({
+        where: {
+            status: 'ON PROCESS'
+        },
+        include: [
+            {
+                model: TProduct,
+                as: 'transaction_product'
+            }
+        ],
+        order: [
+            ['createdAt', 'DESC']
+        ]
+    }).then(data=>{
+        res.send({
+            status: true,
+            message: 'get All Transaction By Status',
+            data: data,
+        })
+    }).catch(err=>{
+        res.send({err: 'Update err, '+err.message})
+    })
+}
+
+const getAllNewTransaction= async (req,res) => {
+    const status = req.params.status;
+    await Transaction.findAll({
+        where: {
+            status: 'NEW ORDER'
+        },
+        include: [
+            {
+                model: TProduct,
+                as: 'transaction_product'
+            }
+        ],
+        order: [
+            ['createdAt', 'DESC']
+        ]
+    }).then(data=>{
+        res.send({
+            status: true,
+            message: 'get All Transaction By Status',
+            data: data,
+        })
+    }).catch(err=>{
+        res.send({err: 'Update err, '+err.message})
+    })
+}
+
+const getAllDoneTransaction = async (req,res) => {
+    const status = req.params.status;
+    await Transaction.findAll({
+        where: {
+            status: 'DONE'
+        },
+        include: [
+            {
+                model: TProduct,
+                as: 'transaction_product'
+            }
+        ]
+    }).then(data=>{
+        res.send({
+            status: true,
+            message: 'get All Transaction By Status',
+            data: data,
+        })
+    }).catch(err=>{
+        res.send({err: 'Update err, '+err.message})
+    })
+}
+
+
+
 const testNotif = async (req,res)=>{
     await pushNotification({total_amount: 500000},6)
     res.send({
@@ -111,5 +213,9 @@ module.exports = {
     createTransaction,
     updateTransactionPaymentStatus,
     testNotif,
-    getAllTransactionByUser
+    getAllTransactionByUser,
+    getAllTransaction,
+    getAllOnProcessTransaction,
+    getAllDoneTransaction,
+    getAllNewTransaction
 }
