@@ -201,6 +201,53 @@ const getAllDoneTransaction = async (req,res) => {
     })
 }
 
+const getAllPaidTransaction = async (req,res) => {
+    const status = req.params.status;
+    await Transaction.findAll({
+        where: {
+            status: 'PAID ORDER'
+        },
+        include: [
+            {
+                model: TProduct,
+                as: 'transaction_product'
+            }
+        ]
+    }).then(data=>{
+        res.send({
+            status: true,
+            message: 'get All Transaction By payment status',
+            data: data,
+        })
+    }).catch(err=>{
+        res.send({err: 'Update err, '+err.message})
+    })
+}
+
+const getAllOnDeliveryOrder = async (req,res) => {
+    const status = req.params.status;
+    await Transaction.findAll({
+        where: {
+            status: 'ON DELIVERY'
+        },
+        include: [
+            {
+                model: TProduct,
+                as: 'transaction_product'
+            }
+        ]
+    }).then(data=>{
+        res.send({
+            status: true,
+            message: 'get All Transaction By payment status',
+            data: data,
+        })
+    }).catch(err=>{
+        res.send({err: 'Update err, '+err.message})
+    })
+}
+
+
 
 
 const testNotif = async (req,res)=>{
@@ -217,5 +264,7 @@ module.exports = {
     getAllTransaction,
     getAllOnProcessTransaction,
     getAllDoneTransaction,
-    getAllNewTransaction
+    getAllNewTransaction,
+    getAllPaidTransaction,
+    getAllOnDeliveryOrder
 }
