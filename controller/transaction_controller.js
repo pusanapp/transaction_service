@@ -51,7 +51,7 @@ const updateTransactionPaymentStatus = async (req, res) => {
     await Transaction.update({
         shipping_status: 'Barang Sedang Dikemas',
         payment_status: 'DIBAYAR',
-        status: 'ON PROCESS',
+        status: 'PAID ORDER',
     },{
         where: {
             invoice_number: invoice
