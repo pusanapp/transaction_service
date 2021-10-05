@@ -7,6 +7,7 @@ router.post('/update/:invoice', transactionController.updateTransactionPaymentSt
 router.get('/all/customer/:customer_id', transactionController.getAllTransactionByUser)
 router.get('/new/all', transactionController.getAllNewTransaction)
 router.get('/done/all', transactionController.getAllDoneTransaction)
+router.get('/done/all/customer/:customer_id', transactionController.getAllDoneTransactionByUser)
 router.get('/on-process/all', transactionController.getAllOnProcessTransaction)
 router.get('/on-delivery/all', transactionController.getAllOnDeliveryOrder)
 router.get('/paid/all', transactionController.getAllPaidTransaction)

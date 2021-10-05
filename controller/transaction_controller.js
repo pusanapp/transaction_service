@@ -247,6 +247,29 @@ const getAllOnDeliveryOrder = async (req,res) => {
     })
 }
 
+const getAllDoneTransactionByUser = async (req,res) => {
+    const customerId = req.params.customer_id;
+    await Transaction.findAll({
+        where: {
+            status: 'DONE',
+            customer_id:customerId
+        },
+        include: [
+            {
+                model: TProduct,
+                as: 'transaction_product'
+            }
+        ]
+    }).then(data=>{
+        res.send({
+            status: true,
+            message: 'get All Transaction By Status',
+            data: data,
+        })
+    }).catch(err=>{
+        res.send({err: 'Update err, '+err.message})
+    })
+}
 
 
 
@@ -266,5 +289,6 @@ module.exports = {
     getAllDoneTransaction,
     getAllNewTransaction,
     getAllPaidTransaction,
-    getAllOnDeliveryOrder
+    getAllOnDeliveryOrder,
+    getAllDoneTransactionByUser
 }
