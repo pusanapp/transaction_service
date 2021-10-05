@@ -88,7 +88,8 @@ const getAllTransactionByUser = async (req,res) => {
             {
                 model: TProduct,
                 as: 'transaction_product'
-            }
+            },
+            'app_payment'
         ],
         order: [
             ['createdAt', 'DESC']
@@ -110,7 +111,8 @@ const getAllTransaction = async (req,res) => {
             {
                 model: TProduct,
                 as: 'transaction_product'
-            }
+            },
+            'app_payment'
         ],
         order: [
             ['createdAt', 'DESC']
@@ -136,7 +138,8 @@ const getAllOnProcessTransaction= async (req,res) => {
             {
                 model: TProduct,
                 as: 'transaction_product'
-            }
+            },
+            'app_payment'
         ],
         order: [
             ['createdAt', 'DESC']
@@ -162,7 +165,8 @@ const getAllNewTransaction= async (req,res) => {
             {
                 model: TProduct,
                 as: 'transaction_product'
-            }
+            },
+            'app_payment'
         ],
         order: [
             ['createdAt', 'DESC']
@@ -188,7 +192,8 @@ const getAllDoneTransaction = async (req,res) => {
             {
                 model: TProduct,
                 as: 'transaction_product'
-            }
+            },
+            'app_payment'
         ]
     }).then(data=>{
         res.send({
@@ -211,7 +216,8 @@ const getAllPaidTransaction = async (req,res) => {
             {
                 model: TProduct,
                 as: 'transaction_product'
-            }
+            },
+            'app_payment'
         ]
     }).then(data=>{
         res.send({
@@ -234,7 +240,8 @@ const getAllOnDeliveryOrder = async (req,res) => {
             {
                 model: TProduct,
                 as: 'transaction_product'
-            }
+            },
+            'app_payment'
         ]
     }).then(data=>{
         res.send({
@@ -258,7 +265,8 @@ const getAllDoneTransactionByUser = async (req,res) => {
             {
                 model: TProduct,
                 as: 'transaction_product'
-            }
+            },
+            'app_payment'
         ]
     }).then(data=>{
         res.send({

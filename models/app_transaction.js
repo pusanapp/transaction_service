@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'transaction_id',
         as: 'transaction_product'
       })
+      this.hasOne(models.app_payment, {
+        foreignKey: 'transaction_id',
+        as: 'app_payment'
+      })
     }
   };
   app_transaction.init({
