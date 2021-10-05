@@ -14,4 +14,9 @@ router.get('/paid/all', transactionController.getAllPaidTransaction)
 router.get('/all', transactionController.getAllTransaction)
 router.post('/test', transactionController.testNotif)
 
+router.post('/cancel/order/:id', transactionController.cancelOrder)
+router.post('/confirm/order/:id', transactionController.confirmOrder)
+router.post('/complete/order/:id', transactionController.completeOrder)
+router.post('/input-resi/order/:id', transactionController.inputShippingNumber)
+
 module.exports = router;
