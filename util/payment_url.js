@@ -8,5 +8,6 @@ exports.paymentUrl = {
     BRI: `https://pusanair-dev.xyz/payment-service/api/v1/va/create`,
     CIMB: `https://pusanair-dev.xyz/payment-service/api/v1/va/create`,
     ALFAMART: ``,
-    INDOMARET: ``
+    INDOMARET: ``,
+    paymentService: 'https://pusanair-dev.xyz/payment-service'
 }

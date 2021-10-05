@@ -35,7 +35,7 @@ const createTransaction = async (req, res) => {
         }
         try {
             console.log(paymentPayload)
-            const {data: response} = await axios.post('https://pusanair-dev.xyz/payment-service/api/v1/midtrans/create/charge/transaction', paymentPayload)
+            const {data: response} = await axios.post(`${paymentUrl.paymentService}/api/v1/midtrans/create/charge/transaction`, paymentPayload)
             console.log(response)
             res.send({
                 status: true,
@@ -203,6 +203,9 @@ const getAllDoneTransaction = async (req, res) => {
                 as: 'transaction_product'
             },
             'app_payment'
+        ],
+        order: [
+            ['createdAt', 'DESC']
         ]
     }).then(data => {
         res.send({
@@ -227,6 +230,9 @@ const getAllPaidTransaction = async (req, res) => {
                 as: 'transaction_product'
             },
             'app_payment'
+        ],
+        order: [
+            ['createdAt', 'DESC']
         ]
     }).then(data => {
         res.send({
@@ -251,6 +257,9 @@ const getAllOnDeliveryOrder = async (req, res) => {
                 as: 'transaction_product'
             },
             'app_payment'
+        ],
+        order: [
+            ['createdAt', 'DESC']
         ]
     }).then(data => {
         res.send({
@@ -276,7 +285,10 @@ const getAllDoneTransactionByUser = async (req, res) => {
                 as: 'transaction_product'
             },
             'app_payment'
-        ]
+        ],
+        order: [
+            ['createdAt', 'DESC']
+        ],
     }).then(data => {
         res.send({
             status: true,
