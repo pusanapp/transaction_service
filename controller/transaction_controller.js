@@ -15,7 +15,9 @@ const createTransaction = async (req, res) => {
             product.transaction_id = result.id
             product.invoice_number = result.invoice_number
             console.log(product)
-            TProduct.create(product).catch(err => {
+            TProduct.create(product).then(async (tp)=>{
+                await Barang.increment('stock', { by: -(tp.product_qty), where: { pid: product.barang_id }})
+            }).catch(err => {
                 res.send({err: 'TProduct err, ' + err.message})
             })
         })
@@ -337,7 +339,7 @@ const cancelOrder = async (req, res) => {
                         id: tp.product_id
                     }
                 }).then(async (product) => {
-                    await Barang.increment('stock', { by: -(tp.product_qty), where: { pid: product.barang_id }})
+                    await Barang.increment('stock', { by: +(tp.product_qty), where: { pid: product.barang_id }})
                 })
             })
             await res.send({
