@@ -15,10 +15,15 @@ const createTransaction = async (req, res) => {
             product.transaction_id = result.id
             product.invoice_number = result.invoice_number
             console.log(product)
-            TProduct.create(product).then(async (tp)=>{
-                await Barang.increment('stock', { by: -(tp.product_qty), where: { pid: product.barang_id }})
-            }).catch(err => {
-                res.send({err: 'TProduct err, ' + err.message})
+            await TProduct.create(product).then(async (tp) => {
+                const currentProduct = await Product.findOne({
+                    where: {
+                        id: tp.product_id
+                    }
+                })
+                console.log(currentProduct.barang_id)
+                await Barang.increment('stock', {by: -(tp.product_qty), where: {pid: currentProduct.barang_id}})
+
             })
         })
         const paymentPayload = {
@@ -30,7 +35,7 @@ const createTransaction = async (req, res) => {
         }
         try {
             console.log(paymentPayload)
-            const {data: response} = await axios.post('http://127.0.0.1:4001/api/v1/midtrans/create/charge/transaction', paymentPayload)
+            const {data: response} = await axios.post('https://pusanair-dev.xyz/payment-service/api/v1/midtrans/create/charge/transaction', paymentPayload)
             console.log(response)
             res.send({
                 status: true,
@@ -339,7 +344,7 @@ const cancelOrder = async (req, res) => {
                         id: tp.product_id
                     }
                 }).then(async (product) => {
-                    await Barang.increment('stock', { by: +(tp.product_qty), where: { pid: product.barang_id }})
+                    await Barang.increment('stock', {by: +(tp.product_qty), where: {pid: product.barang_id}})
                 })
             })
             await res.send({
