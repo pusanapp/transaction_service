@@ -36,7 +36,8 @@ module.exports = (sequelize, DataTypes) => {
     shipping_status: DataTypes.STRING,
     payment_status: DataTypes.STRING,
     status: DataTypes.STRING,
-    note: DataTypes.TEXT
+    note: DataTypes.TEXT,
+    payment_date: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'app_transaction',

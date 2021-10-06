@@ -61,6 +61,7 @@ const updateTransactionPaymentStatus = async (req, res) => {
         shipping_status: 'Menunggu Konfirmasi',
         payment_status: 'DIBAYAR',
         status: 'PAID ORDER',
+        payment_date: new Date()
     }, {
         where: {
             invoice_number: invoice
