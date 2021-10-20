@@ -413,6 +413,7 @@ const completeOrder = async (req, res) => {
         }
     }).then((row) => {
         if (row > 0) {
+            //update sold product
             res.send({
                 status: true,
                 message: 'complete order Success'
