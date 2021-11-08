@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const transactionController = require('../controller/transaction_controller')
-
+const excellController = require('../controller/excell_controller')
 router.post('/create/order', transactionController.createTransaction)
 router.post('/update/:invoice', transactionController.updateTransactionPaymentStatus)
 router.get('/all/customer/:customer_id', transactionController.getAllTransactionByUser)
@@ -18,5 +18,7 @@ router.post('/cancel/order/:id', transactionController.cancelOrder)
 router.post('/confirm/order/:id', transactionController.confirmOrder)
 router.post('/complete/order/:id', transactionController.completeOrder)
 router.post('/input-resi/order/:id', transactionController.inputShippingNumber)
+
+router.get('/export', excellController.testExcell)
 
 module.exports = router;
