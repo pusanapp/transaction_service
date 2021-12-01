@@ -1,4 +1,6 @@
 const axios = require('axios')
+const {response} = require("express");
+const {wsApiLocal} = require("./globalUrl");
 
 const pushNotification = async (data, external_user_id) => {
     const pushData = {
@@ -19,7 +21,18 @@ const pushNotification = async (data, external_user_id) => {
         console.log(err.response)
     })
 }
+const pushNotificationWeb = async (data) => {
+    const postData = {
+        from: data.customer_name,
+        payment_amount: data.total_amount,
+        method: data.payment_method
+    }
+    await axios.post(`${wsApiLocal}/paid-order`, postData).then(({data: response}) => {
+        console.log(response)
+    })
+}
 
 module.exports = {
-    pushNotification
+    pushNotification,
+    pushNotificationWeb
 }

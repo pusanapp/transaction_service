@@ -5,9 +5,23 @@ const TProduct = model.transaction_product;
 const Barang = model.e_barang;
 const Product = model.app_product;
 const path = require('path');
-
+const {Op} = require('sequelize')
+const moment = require('moment')
+require('moment/locale/id')
 const testExcell = async (req,res) => {
-    Transaction.findAll().then((objs) => {
+    const{startDate, endDate} = req.query;
+    Transaction.findAll({
+        where: {
+            createdAt: {
+                // -1 hari
+                // new Date(new Date() - 24 * 60 * 60 * 1000)
+                [Op.lte]: moment(endDate).add(2,'days'),
+                [Op.gte]: moment(startDate).add(1, 'days')
+            }
+        }
+    }).then((objs) => {
+        // res.send(objs)
+        // console.log(objs)
         let tutorials = [];
 
         objs.map((obj,index) => {
@@ -55,7 +69,9 @@ const testExcell = async (req,res) => {
         // return workbook.xlsx.write(res).then(function () {
         //     res.status(200).end();
         // });
-    });
+    }).catch(err=>{
+        console.log(err.message)
+    })
 }
 
 module.exports = {

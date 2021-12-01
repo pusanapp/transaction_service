@@ -5,7 +5,7 @@ const Barang = model.e_barang;
 const Product = model.app_product;
 const axios = require('axios')
 const paymentUrl = require('../util/payment_url').paymentUrl
-const {pushNotification} = require('../util/push_notification')
+const {pushNotification, pushNotificationWeb} = require('../util/push_notification')
 const createTransaction = async (req, res) => {
     const data = req.body.data
     const products = req.body.products
@@ -74,7 +74,8 @@ const updateTransactionPaymentStatus = async (req, res) => {
                 }
             })
             await pushNotification(finalTransaction, finalTransaction.customer_id)
-            res.send({
+            await pushNotificationWeb(finalTransaction)
+            return res.send({
                 status: true,
                 message: 'transaction Updated Success'
             })
