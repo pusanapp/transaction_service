@@ -7,7 +7,8 @@ const pushNotification = async (data, external_user_id) => {
         app_id: "dd00fb9e-3873-413f-b527-9438490500ce",
         include_external_user_ids: [`${external_user_id}`],
         data: {
-            type: 'payment'
+            type: 'payment',
+            transaction_id: data.id
         },
         headings: {"en": "Pembayaran Berhasil"},
         contents: {"en": `Transaksi Pembayaran Sebesar ${data.total_amount} Pusan Anda Berhasil`}
@@ -24,12 +25,13 @@ const pushNotification = async (data, external_user_id) => {
     })
 }
 
-const pushNotificationDone = async (external_user_id) => {
+const pushNotificationDone = async (data, external_user_id) => {
     const pushData = {
         app_id: "dd00fb9e-3873-413f-b527-9438490500ce",
         include_external_user_ids: [`${external_user_id}`],
         data: {
             type: 'confirmation',
+            transaction_id: data.id
         },
         headings: {"en": "Konfirmasi Pesanan Telah Sampai"},
         contents: {"en": `Silahkan Cek Terlebih Dahulu dan Konfirmasi.`}

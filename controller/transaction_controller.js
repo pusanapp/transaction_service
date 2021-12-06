@@ -419,7 +419,7 @@ const completeOrder = async (req, res) => {
                     id: id
                 }
             })
-            await pushNotificationDone(finalTransaction.customer_id)
+            await pushNotificationDone(finalTransaction, finalTransaction.customer_id)
             //update sold product
             res.send({
                 status: true,
