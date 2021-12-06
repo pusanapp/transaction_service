@@ -1,10 +1,11 @@
 const axios = require('axios')
 const {response} = require("express");
 const {wsApiLocal} = require("./globalUrl");
+require('dotenv').config()
 
 const pushNotification = async (data, external_user_id) => {
     const pushData = {
-        app_id: "dd00fb9e-3873-413f-b527-9438490500ce",
+        app_id: process.env.ONE_SIGNAL_APP_ID,
         include_external_user_ids: [`${external_user_id}`],
         data: {
             type: 'payment',
@@ -16,7 +17,7 @@ const pushNotification = async (data, external_user_id) => {
     await axios.post(`https://onesignal.com/api/v1/notifications`, pushData, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Basic MzJjZmM2NGYtNzVkNi00ZWYyLWFjODEtODc1MTU1MTk4ZWI1'
+            'Authorization': `Basic ${process.env.ONE_SIGNAL_KEY}`
         }
     }).then(({data: response})=>{
         console.log(response)
