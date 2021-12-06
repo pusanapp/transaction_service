@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>A simple, clean, and responsive HTML invoice template</title>
+
+    <style>
+        .nama {
+            font-weight: bold;
+        }
+        .invoice2 {
+            font-weight: bold;
+            font-size: 20px;
+        }
+        tr.space2 {
+            margin-top: 20px;
+        }
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #eee;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            font-size: 16px;
+            line-height: 24px;
+            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            color: #555;
+        }
+
+        .terima-kasih {
+            font-size: 11px;
+        }
+
+        .invoice-box table {
+            width: 100%;
+            line-height: inherit;
+            text-align: left;
+        }
+
+        .invoice-box table td {
+            padding: 5px;
+            vertical-align: top;
+        }
+
+        .invoice-box table tr td:nth-child(2) {
+            text-align: right;
+        }
+
+        .invoice-box table tr.top table td {
+            padding-bottom: 20px;
+        }
+
+        .invoice-box table tr.top table td.title {
+            font-size: 45px;
+            line-height: 45px;
+            color: #333;
+        }
+
+        .invoice-box table tr.information table td {
+            padding-bottom: 40px;
+        }
+
+        .invoice-box table tr.heading td {
+            background: #eee;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
+
+        .invoice-box table tr.details td {
+            padding-bottom: 20px;
+        }
+
+        .invoice-box table tr.item td {
+            border-bottom: 1px solid #eee;
+        }
+
+        .invoice-box table tr.item.last td {
+            border-bottom: none;
+        }
+
+        .invoice-box table tr.total td:nth-child(2) {
+            /*border-top: 2px solid #eee;*/
+            font-weight: bold;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .invoice-box table tr.top table td {
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+
+            .invoice-box table tr.information table td {
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+        }
+
+        /** RTL **/
+        .invoice-box.rtl {
+            direction: rtl;
+            font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+        }
+
+        .invoice-box.rtl table {
+            text-align: right;
+        }
+
+        .invoice-box.rtl table tr td:nth-child(2) {
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+<div class="invoice-box">
+    <table cellpadding="0" cellspacing="0">
+        <tr class="top">
+            <td colspan="3" class="title" style="text-align: center">
+                <img src="https://pusanair-dev.xyz/assets-service/images/logo_pusan1.png" style="width: 100%; max-width: 300px"/><br />
+                <span class="invoice2">INVOICE</span>
+            </td>
+        </tr>
+
+        <tr class="information space2">
+            <td>
+                Nama Pembeli &nbsp: [nama] <br />
+                No Telepon &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp : [no_hp] <br />
+                No Invoice &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: #[invoice_number2] <br />
+                Tanggal &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp : [tanggal_pembelian2]
+            </td>
+            <!--            <td style="text-align: left" colspan="2">-->
+            <!--                [nama]-->
+            <!--            </td>-->
+            <!--            <td colspan="3">-->
+            <!--                <table>-->
+            <!--                    <tr>-->
+            <!--                        <td>-->
+            <!--                            Nama Pembeli : [nama]<br />-->
+            <!--                            No Telepon : [no_hp]<br />-->
+            <!--                            [alamat]-->
+
+            <!--                        </td>-->
+
+            <!--                        <td>-->
+            <!--                            Kurir: [shipping_method]<br />-->
+            <!--                            No Resi: [no_resi]<br />-->
+            <!--                            Berat: [weight]-->
+            <!--                        </td>-->
+            <!--                    </tr>-->
+            <!--                </table>-->
+            <!--            </td>-->
+        </tr>
+
+        <tr class="heading" style="margin-top: 25px">
+            <td colspan="2">Metode Pemnayaran</td>
+
+            <td>Total</td>
+        </tr>
+
+        <tr class="details">
+            <td colspan="2">[payment_method]</td>
+
+            <td>[amount]</td>
+        </tr>
+
+        <tr class="heading">
+            <td colspan="1">Barang</td>
+            <td style="text-align: center">Jumlah</td>
+            <td style="text-align: right">Harga</td>
+        </tr>
+
+        [item_product]
+        <tr>
+            <td colspan="1"></td>
+
+            <td style="text-align: right">Sub Total:</td>
+            <td style="text-align: right">[sub_total]</td>
+        </tr>
+        <tr>
+            <td colspan="1"></td>
+
+            <td style="text-align: right">Biaya Kirim:</td>
+            <td style="text-align: right">[shipping_cost]</td>
+        </tr>
+        <tr>
+            <td colspan="1"></td>
+
+            <td style="text-align: right">Administrasi:</td>
+            <td style="text-align: right">[administrative_cost]</td>
+        </tr>
+
+
+        <tr class="total">
+            <td colspan="1"></td>
+
+            <td style="text-align: right">Total:</td>
+            <td style="text-align: right">[total]</td>
+        </tr>
+        <tr class="information">
+            <td colspan="3">
+                Alamat Pengiriman: <br />
+                <span class="nama">[nama1] ([hp1])</span> <br />
+                [alamat1]
+            </td>
+        </tr>
+
+        <tr class="information">
+            <td colspan="2">
+                Kurir: <br />
+                <span class="nama">[shipping_method2]</span> <br />
+                <span class="nama">Berat [weight2]</span> <br />
+            </td>
+        </tr>
+    </table>
+    <div class="terima-kasih">
+        Terimakasih atas kepercayaan anda kepada Pusan Store.
+    </div>
+</div>
+</body>
+</html>

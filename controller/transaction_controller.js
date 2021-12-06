@@ -5,7 +5,7 @@ const Barang = model.e_barang;
 const Product = model.app_product;
 const axios = require('axios')
 const paymentUrl = require('../util/payment_url').paymentUrl
-const {pushNotification, pushNotificationWeb} = require('../util/push_notification')
+const {pushNotification, pushNotificationWeb, pushNotificationDone} = require('../util/push_notification')
 const createTransaction = async (req, res) => {
     const data = req.body.data
     const products = req.body.products
@@ -412,8 +412,14 @@ const completeOrder = async (req, res) => {
         where: {
             id: id
         }
-    }).then((row) => {
+    }).then(async (row) => {
         if (row > 0) {
+            const finalTransaction = await Transaction.findOne({
+                where: {
+                    id: id
+                }
+            })
+            await pushNotificationDone(finalTransaction.customer_id)
             //update sold product
             res.send({
                 status: true,

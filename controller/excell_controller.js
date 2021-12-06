@@ -1,5 +1,5 @@
 const excel = require("exceljs");
-const model = require('../models/index')
+const model = require('../models')
 const Transaction = model.app_transaction;
 const TProduct = model.transaction_product;
 const Barang = model.e_barang;
@@ -50,25 +50,25 @@ const testExcell = async (req,res) => {
         // Add Array Rows
         worksheet.addRows(tutorials);
 
-        // res.setHeader(
-        //     "Content-Type",
-        //     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        // );
-        // res.setHeader(
-        //     "Content-Disposition",
-        //     "attachment; filename=" + "Transaction.xlsx"
-        // );
+        res.setHeader(
+            "Content-Type",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        );
+        res.setHeader(
+            "Content-Disposition",
+            "attachment; filename=" + `export-TRANSACTION-${Date.now()}.xlsx`
+        );
         // console.log(path.join(__dirname, `../public/xls/333.xlsx`))
-        workbook.xlsx.writeFile(path.join(__dirname, `../public/xls/333.xlsx`))
-        res.send(
-            {
-                status: true,
-                file_xls: `http://127.0.0.1:4005/xls/333.xlsx`
-            }
-        )
-        // return workbook.xlsx.write(res).then(function () {
-        //     res.status(200).end();
-        // });
+        // workbook.xlsx.writeFile(path.join(__dirname, `../public/xls/333.xlsx`))
+        // res.send(
+        //     {
+        //         status: true,
+        //         file_xls: `http://127.0.0.1:4005/xls/333.xlsx`
+        //     }
+        // )
+        return workbook.xlsx.write(res).then(function () {
+            res.status(200).end();
+        });
     }).catch(err=>{
         console.log(err.message)
     })
