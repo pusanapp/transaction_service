@@ -414,12 +414,12 @@ const completeOrder = async (req, res) => {
         }
     }).then(async (row) => {
         if (row > 0) {
-            const finalTransaction = await Transaction.findOne({
-                where: {
-                    id: id
-                }
-            })
-            await pushNotificationDone(finalTransaction, finalTransaction.customer_id)
+            // const finalTransaction = await Transaction.findOne({
+            //     where: {
+            //         id: id
+            //     }
+            // })
+            // await pushNotificationDone(finalTransaction, finalTransaction.customer_id)
             //update sold product
             res.send({
                 status: true,
