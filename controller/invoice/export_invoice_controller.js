@@ -23,6 +23,9 @@ const exportInvoice = async (req, res) => {
     })
     console.log(transaction)
     let html = fs.readFileSync(__dirname +"/template.html", "utf8");
+    let bitmap = fs.readFileSync(__dirname+"/logo_pusan12.png")
+    const logo = bitmap.toString('base64')
+
     html = html.replace('[invoice_number2]', transaction.invoice_number)
     html = html.replace('[tanggal_pembelian2]', moment(transaction.createdAt).format('llll'))
     html = html.replace('[nama]', transaction.customer_name)
@@ -70,6 +73,7 @@ const exportInvoice = async (req, res) => {
         html: html,
         data: {
             users: [],
+            logo: logo
         },
         path: "./output.pdf",
         type: "buffer",
