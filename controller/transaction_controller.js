@@ -413,7 +413,8 @@ const doneConfirmationOrder = async (req, res) => {
     })
     let count = await TrcConfirmation.count({
         where: {
-            transaction_id: id
+            transaction_id: id,
+            user: user
         }
     })
 
@@ -425,7 +426,7 @@ const doneConfirmationOrder = async (req, res) => {
         user: user
     }
     console.log(data)
-    if (count < 2) {
+    if (count < 1) {
         // res.send(
         //     {
         //         ok: 'ok',
