@@ -75,7 +75,7 @@ const exportInvoice = async (req, res) => {
         type: "buffer",
     };
 
-    pdf.create(document, options)
+    await pdf.create(document, options)
         .then((response) => {
             res.setHeader(
                 "Content-disposition",
