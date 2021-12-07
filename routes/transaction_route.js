@@ -18,6 +18,7 @@ router.post('/test', transactionController.testNotif)
 
 router.post('/cancel/order/:id', transactionController.cancelOrder)
 router.post('/confirm/order/:id', transactionController.confirmOrder)
+router.post('/done/confirmation/transaction/:id', transactionController.doneConfirmationOrder)
 router.post('/complete/order/:id', transactionController.completeOrder)
 router.post('/input-resi/order/:id', transactionController.inputShippingNumber)
 

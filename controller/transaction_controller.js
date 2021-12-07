@@ -3,6 +3,7 @@ const Transaction = model.app_transaction;
 const TProduct = model.transaction_product;
 const Barang = model.e_barang;
 const Product = model.app_product;
+const TrcConfirmation = model.trc_done_confirmation;
 const axios = require('axios')
 const paymentUrl = require('../util/payment_url').paymentUrl
 const {pushNotification, pushNotificationWeb, pushNotificationDone} = require('../util/push_notification')
@@ -402,6 +403,72 @@ const inputShippingNumber = async (req, res) => {
     })
 }
 
+const doneConfirmationOrder = async (req, res) => {
+    const {status, user} = req.body;
+    const {id} = req.params;
+    const trx = await Transaction.findOne({
+        where: {
+            id: id
+        }
+    })
+    let count = await TrcConfirmation.count({
+        where: {
+            transaction_id: id
+        }
+    })
+
+    const data = {
+        transaction_id: trx.id,
+        invoice: trx.invoice_number,
+        status: status ? status : 'complete',
+        remark: status ? status : 'complete',
+        user: user
+    }
+    console.log(data)
+    if (count < 2) {
+        // res.send(
+        //     {
+        //         ok: 'ok',
+        //         count: count
+        //     }
+        // )
+        await TrcConfirmation.create(data).then(async (result) => {
+            count = await TrcConfirmation.count({
+                where: {
+                    transaction_id: id
+                }
+            })
+            console.log(count)
+            if(count===2){
+                const doneData = {
+                    shipping_status: 'Pesanan Selesai',
+                    status: 'DONE'
+                }
+                const id = req.params.id;
+                await Transaction.update(doneData, {
+                    where: {
+                        id: id
+                    }
+                })
+                return res.send({
+                    status: false,
+                    count: 'confirmation done'
+                })
+            }
+            return res.send({
+                status: false,
+                count: 'confirmation ok'
+            })
+        })
+    } else {
+        return res.send({
+            status: false,
+            message: 'failed, you has confirm this order'
+        })
+    }
+
+
+}
 const completeOrder = async (req, res) => {
     const data = {
         shipping_status: 'Pesanan Selesai',
@@ -451,5 +518,6 @@ module.exports = {
     confirmOrder,
     cancelOrder,
     inputShippingNumber,
-    completeOrder
+    completeOrder,
+    doneConfirmationOrder
 }
