@@ -28,15 +28,40 @@ const exportInvoice = async (req, res) => {
 
     let htmlItem = ''
     let subTotal = 0;
+    let specialPrice = 0;
+    let total = 0;
+    let type = '';
     transaction.transaction_product.map(product => {
-        subTotal += (product.product_price * product.product_qty)
+        console.log(product)
+        if(product.discount_price){
+            total = product.product_qty*product.discount_price
+            subTotal += total
+            specialPrice = product.discount_price
+            type = '(Diskon)'
+        }else if(product.combo_price){
+            total = product.product_qty*product.combo_price
+            subTotal += total
+            specialPrice = product.combo_price
+            type = '(Combo)'
+
+        }else if(product.grosir_price){
+            total = product.product_qty*product.grosir_price
+            subTotal += total
+            specialPrice = product.grosir_price
+            type = '(Grosir)'
+        }else {
+            total = product.product_qty * product.product_price
+            subTotal += total
+            specialPrice = 0
+            type = ''
+        }
         console.log('sub_total, ',subTotal)
         htmlItem = htmlItem+`<tr class="item">
             <td colspan="1">${product.product_name}</td>
             <td style="text-align: center">${product.product_qty}</td>
             <td style="text-align: center">${convertRupiah.convert(product.product_price)}</td>
-            <td style="text-align: center">${product.discount_price? convertRupiah.convert(product.discount_price) : convertRupiah.convert(0)}</td>
-            <td style="text-align: right">${product.discount_price? convertRupiah.convert(product.product_qty*product.discount_price) : convertRupiah.convert(product.product_qty*product.product_price)}</td>
+            <td style="text-align: center">${type} ${convertRupiah.convert(specialPrice)}</td>
+            <td style="text-align: right">${convertRupiah.convert(total)}</td>
         </tr>`
     })
     html = html.replace('[item_product]', htmlItem)
