@@ -6,7 +6,7 @@
 
     <style>
         html {
-            zoom: 0.55;
+            zoom: 0.75;
         }
         .nama {
             font-weight: bold;
@@ -32,6 +32,7 @@
 
         .terima-kasih {
             font-size: 11px;
+            margin-top: 20px;
         }
 
         .invoice-box table {
@@ -120,104 +121,133 @@
 <div class="invoice-box">
     <table cellpadding="0" cellspacing="0">
         <tr class="top">
-            <td colspan="3" class="title" style="text-align: center">
+            <td colspan="5" class="title" style="text-align: center">
                 <img src="data:image/png;base64,{{logo}}" alt="logo" style="width: 100%; max-width: 300px"/><br />
                 <span class="invoice2">INVOICE</span>
             </td>
         </tr>
-
-        <tr class="information space2">
-            <td>
-                Nama Pembeli &nbsp&nbsp&nbsp: [nama] <br />
-                No Telepon &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp : [no_hp] <br />
-                No Invoice &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: #[invoice_number2] <br />
-                Tanggal &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp : [tanggal_pembelian2]
+        <tr>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+        <tr class="information">
+            <td colspan="1">
+                No Invoice
             </td>
-            <!--            <td style="text-align: left" colspan="2">-->
-            <!--                [nama]-->
-            <!--            </td>-->
-            <!--            <td colspan="3">-->
-            <!--                <table>-->
-            <!--                    <tr>-->
-            <!--                        <td>-->
-            <!--                            Nama Pembeli : [nama]<br />-->
-            <!--                            No Telepon : [no_hp]<br />-->
-            <!--                            [alamat]-->
-
-            <!--                        </td>-->
-
-            <!--                        <td>-->
-            <!--                            Kurir: [shipping_method]<br />-->
-            <!--                            No Resi: [no_resi]<br />-->
-            <!--                            Berat: [weight]-->
-            <!--                        </td>-->
-            <!--                    </tr>-->
-            <!--                </table>-->
-            <!--            </td>-->
+            <td colspan="4" style="text-align: left">
+                : #{{invoice}}
+            </td>
+        </tr>
+        <tr class="information">
+            <td colspan="1">
+                Nama Pembeli
+            </td>
+            <td colspan="4" style="text-align: left">
+                : {{customer_name}}
+            </td>
+        </tr>
+        <tr class="information">
+            <td colspan="1">
+                No Telepon
+            </td>
+            <td colspan="4" style="text-align: left">
+                : {{phone_number}}
+            </td>
+        </tr>
+        <tr class="information">
+            <td colspan="1">
+                Tanggal
+            </td>
+            <td colspan="4" style="text-align: left">
+                : {{date}}
+            </td>
         </tr>
 
+        <tr>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
         <tr class="heading" style="margin-top: 25px">
-            <td colspan="2">Metode Pemnayaran</td>
+            <td colspan="3">Metode Pemnayaran</td>
 
-            <td>Total</td>
+            <td colspan="2">Total</td>
         </tr>
 
         <tr class="details">
-            <td colspan="2">[payment_method]</td>
+            <td colspan="3">{{payment_method}}</td>
 
-            <td>[amount]</td>
+            <td colspan="2">{{amount}}</td>
         </tr>
 
+        <tr>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
         <tr class="heading">
-            <td colspan="1">Barang</td>
+            <td >Barang</td>
             <td style="text-align: center">Jumlah</td>
-            <td style="text-align: right">Harga</td>
+            <td style="text-align: center">Harga</td>
+            <td style="text-align: center">Harga Diskon</td>
+            <td style="text-align: center">Total</td>
         </tr>
 
         [item_product]
         <tr>
-            <td colspan="1"></td>
+            <td colspan="2"></td>
 
             <td style="text-align: right">Sub Total:</td>
-            <td style="text-align: right">[sub_total]</td>
+            <td colspan="2" style="text-align: right">{{sub_total}}</td>
         </tr>
         <tr>
-            <td colspan="1"></td>
+            <td colspan="2"></td>
 
-            <td style="text-align: right">Biaya Kirim:</td>
-            <td style="text-align: right">[shipping_cost]</td>
+            <td style="text-align: right">Ongkos Kirim:</td>
+            <td colspan="2" style="text-align: right">{{shipping_cost}}</td>
         </tr>
         <tr>
-            <td colspan="1"></td>
+            <td colspan="2"></td>
 
             <td style="text-align: right">Administrasi:</td>
-            <td style="text-align: right">[administrative_cost]</td>
+            <td colspan="2" style="text-align: right">{{administrative_cost}}</td>
         </tr>
 
 
         <tr class="total">
-            <td colspan="1"></td>
+            <td colspan="2"></td>
 
             <td style="text-align: right">Total:</td>
-            <td style="text-align: right">[total]</td>
+            <td colspan="2" style="text-align: right">{{total}}</td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
         </tr>
         <tr class="information">
-            <td colspan="3">
+            <td colspan="5">
                 Alamat Pengiriman: <br />
-                <span class="nama">[nama1] ([hp1])</span> <br />
-                [alamat1]
+                <span class="nama">{{customer_name}} ({{phone_number}})</span> <br />
+                {{address}}
             </td>
         </tr>
 
         <tr class="information">
-            <td colspan="2">
+            <td colspan="5">
                 Kurir: <br />
-                <span class="nama">[shipping_method2]</span> <br />
-                <span class="nama">Berat [weight2]</span> <br />
+                <span class="nama">{{shipping_expedition}}</span> <br />
+                <span class="nama">Berat {{weight}}</span> <br />
             </td>
         </tr>
     </table>
-    <div class="terima-kasih">
+
+    <div class="terima-kasih" >
         Terimakasih atas kepercayaan anda kepada Pusan Store.
     </div>
 </div>

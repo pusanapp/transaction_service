@@ -26,17 +26,6 @@ const exportInvoice = async (req, res) => {
     let bitmap = fs.readFileSync(__dirname+"/logo_pusan12.png")
     const logo = bitmap.toString('base64')
 
-    html = html.replace('[invoice_number2]', transaction.invoice_number)
-    html = html.replace('[tanggal_pembelian2]', moment(transaction.createdAt).format('llll'))
-    html = html.replace('[nama]', transaction.customer_name)
-
-    html = html.replace('[no_hp]', transaction.phone_number)
-    html = html.replace('[alamat]', transaction.address)
-
-    html = html.replace('[weight2]', transaction.shipping_weight + ' gram')
-    html = html.replace('[payment_method]', transaction.payment_method)
-    html = html.replace('[payment_method]', transaction.payment_method)
-    html = html.replace('[amount]', convertRupiah.convert(transaction.total_amount))
     let htmlItem = ''
     let subTotal = 0;
     transaction.transaction_product.map(product => {
@@ -45,19 +34,13 @@ const exportInvoice = async (req, res) => {
         htmlItem = htmlItem+`<tr class="item">
             <td colspan="1">${product.product_name}</td>
             <td style="text-align: center">${product.product_qty}</td>
-            <td style="text-align: right">${convertRupiah.convert(product.product_price)}</td>
+            <td style="text-align: center">${convertRupiah.convert(product.product_price)}</td>
+            <td style="text-align: center">${product.discount_price? convertRupiah.convert(product.discount_price) : convertRupiah.convert(0)}</td>
+            <td style="text-align: right">${product.discount_price? convertRupiah.convert(product.product_qty*product.discount_price) : convertRupiah.convert(product.product_qty*product.product_price)}</td>
         </tr>`
     })
     html = html.replace('[item_product]', htmlItem)
-    html = html.replace('[sub_total]', convertRupiah.convert(subTotal))
-    html = html.replace('[shipping_cost]', convertRupiah.convert(transaction.shipping_cost))
-    html = html.replace('[administrative_cost]', convertRupiah.convert(transaction.administrative_cost))
-    html = html.replace('[total]', convertRupiah.convert(transaction.total_amount))
-    html = html.replace('[nama1]', transaction.customer_name)
-    html = html.replace('[hp1]', transaction.phone_number)
-    html = html.replace('[alamat1]', transaction.address)
-    html = html.replace('[shipping_method2]', transaction.shipping_expedition_service)
-    html = html.replace('[no_resi2]', transaction.shipping_number? transaction.shipping_number: 'not Ready')
+
     const options = {
         format: "A4",
         orientation: "portrait",
@@ -73,7 +56,20 @@ const exportInvoice = async (req, res) => {
         html: html,
         data: {
             users: [],
-            logo: logo
+            logo: logo,
+            customer_name: transaction.customer_name,
+            phone_number: transaction.phone_number,
+            invoice: invoice,
+            address: transaction.address,
+            date: moment(transaction.createdAt).format('llll'),
+            payment_method: transaction.payment_method,
+            amount: convertRupiah.convert(transaction.total_amount),
+            sub_total: convertRupiah.convert(subTotal),
+            shipping_cost: convertRupiah.convert(transaction.shipping_cost),
+            administrative_cost: convertRupiah.convert(transaction.administrative_cost),
+            total: convertRupiah.convert(transaction.total_amount),
+            weight: transaction.shipping_weight,
+            shipping_expedition: transaction.shipping_expedition_service
         },
         path: "./output.pdf",
         type: "buffer",
