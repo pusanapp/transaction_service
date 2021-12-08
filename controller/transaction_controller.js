@@ -455,12 +455,12 @@ const doneConfirmationOrder = async (req, res) => {
                 })
                 return res.send({
                     status: false,
-                    count: 'confirmation done'
+                    message: 'confirmation done'
                 })
             }
             return res.send({
                 status: false,
-                count: 'confirmation ok'
+                message: 'confirmation ok'
             })
         })
     } else {
@@ -505,6 +505,18 @@ const completeOrder = async (req, res) => {
         res.send({err: 'Update err, ' + err.message})
     })
 }
+const hasDoneFinishOrder = async (req, res) => {
+    const {transaction_id, user} = req.params
+    await TrcConfirmation.count({
+        where: {
+            transaction_id: transaction_id,
+            user: user
+        }
+    }).then(count=>{
+        console.log(count)
+        res.send({status: count? true : false})
+    })
+}
 
 module.exports = {
     createTransaction,
@@ -522,5 +534,6 @@ module.exports = {
     cancelOrder,
     inputShippingNumber,
     completeOrder,
-    doneConfirmationOrder
+    doneConfirmationOrder,
+    hasDoneFinishOrder
 }
