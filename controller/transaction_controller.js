@@ -417,7 +417,9 @@ const doneConfirmationOrder = async (req, res) => {
             user: user
         }
     })
-
+    if(user==='pusan'){
+        await pushNotificationDone(trx, trx.customer_id)
+    }
     const data = {
         transaction_id: trx.id,
         invoice: trx.invoice_number,
