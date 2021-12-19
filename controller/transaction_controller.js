@@ -6,6 +6,7 @@ const Product = model.app_product;
 const TrcConfirmation = model.trc_done_confirmation;
 const axios = require('axios')
 const paymentUrl = require('../util/payment_url').paymentUrl
+const { Op } = require("sequelize");
 const {pushNotification, pushNotificationWeb, pushNotificationDone} = require('../util/push_notification')
 const createTransaction = async (req, res) => {
     const data = req.body.data
@@ -94,7 +95,13 @@ const getAllTransactionByUser = async (req, res) => {
     const customerId = req.params.customer_id;
     await Transaction.findAll({
         where: {
-            customer_id: customerId
+            customer_id: customerId,
+            status : {
+                [Op.and]: [
+                    {[Op.ne] : 'DONE'},
+                    {[Op.ne] : 'CANCEL'},
+                ]
+            }
         },
         include: [
             {
