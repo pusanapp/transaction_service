@@ -108,7 +108,8 @@ const getAllTransactionByUser = async (req, res) => {
                 model: TProduct,
                 as: 'transaction_product'
             },
-            'app_payment'
+            'app_payment',
+            'trc_done_confirmation'
         ],
         order: [
             ['createdAt', 'DESC']

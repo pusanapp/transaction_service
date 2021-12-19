@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'transaction_id',
         as: 'app_payment'
       })
+      this.hasMany(models.trc_done_confirmation, {
+        foreignKey: 'transaction_id',
+        as: 'trc_done_confirmation'
+      })
     }
   };
   app_transaction.init({
